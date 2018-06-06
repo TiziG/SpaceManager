@@ -1,11 +1,22 @@
 # logger.py
 
+from _datetime import datetime
+
 class Logger(object):
+    DIVIDER_LENGHT = 60
+
     def __init__(self, active=False):
         self.indentation = 0
         self.active = active
 
-    def log(self, message, relative_indentation=0):
-        self.indentation += relative_indentation
+    def log(self, message, relative_indentation_self=0, relative_indentation_next=0):
+        self.indentation += relative_indentation_self
         if self.active:
-            print('-'.join(str(x) for x in [''] * self.indentation) + message)
+            date = str(datetime.now()) + ': '
+            indentation = ''.join(str(x) for x in ['-'] * self.indentation)
+            print( date + indentation + message)
+        self.indentation += relative_indentation_next
+
+    @staticmethod
+    def divider(length = DIVIDER_LENGHT):
+        print(''.join(str(x) for x in ['-'] * length))

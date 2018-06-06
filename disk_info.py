@@ -5,7 +5,7 @@ class DiskInfo(object):
         self.tb = tb
         self.version = version
 
-    def to_string(self, is_link_target):
+    def to_string(self, is_link_target = False):
         if is_link_target:
             version_data = 'D'
         else:
