@@ -7,6 +7,7 @@ from shutil import move
 from stat import S_ISDIR, ST_CTIME
 from typing import List
 
+from create_symlinks import create_symlinks
 from shared_objects import Volume
 from space_manager_helpers import Logger
 
@@ -56,25 +57,60 @@ class OsOperations(object):
         return _n_tuple_disk_usage(total, used, free)
 
     @staticmethod
-    def get_volume_with_most_free_space(
+    def get_emptiest_volume(
             volumes: List[Volume],
             logger=Logger(False)
     ) -> Volume:
-        most_free_space_in_percent = 0
-        volume_with_most_free_space = None
         logger.log('%d possible target volumes. Searching for emptiest...' % len(volumes), 0, 1)
-        for volume in volumes:
-            volume_usage = OsOperations.disk_usage(volume.get_absolute_path())
-            free_space_in_percent = (100 / volume_usage.total) * volume_usage.free
-            logger.log('volume %s: %d%% empty' % (volume.to_string(), free_space_in_percent))
-            if free_space_in_percent > most_free_space_in_percent:
-                most_free_space_in_percent = free_space_in_percent
-                volume_with_most_free_space = volume
+        volume_with_most_free_space = OsOperations.get_volume_with_most_extreme_free_space(
+            volumes,
+            lowest=False,
+            logger=logger
+        )
         logger.log('search for emptiest volume finished', -1)
         return volume_with_most_free_space
 
     @staticmethod
-    def move(source, destination, test_run=False, logger=Logger(False)):
+    def get_fullest_volume(
+            volumes: List[Volume],
+            logger=Logger(False)
+    ) -> Volume:
+        logger.log('%d possible target volumes. Searching for fullest...' % len(volumes), 0, 1)
+        volume_with_most_free_space = OsOperations.get_volume_with_most_extreme_free_space(
+            volumes,
+            lowest=True,
+            logger=logger
+        )
+        logger.log('search for fullest volume finished', -1)
+        return volume_with_most_free_space
+
+    @staticmethod
+    def get_volume_with_most_extreme_free_space(
+            volumes: List[Volume],
+            lowest,
+            logger=Logger(False)
+    ) -> Volume:
+        most_extreme_free_space_in_percent = -1
+        volume_with_most_extreme_free_space = None
+        for volume in volumes:
+            volume_usage = OsOperations.disk_usage(volume.get_absolute_path())
+            free_space_in_percent = (100 / volume_usage.total) * volume_usage.free
+            logger.log('volume %s: %d%% empty' % (volume.to_string(), free_space_in_percent))
+            if (
+                    most_extreme_free_space_in_percent == -1
+                    or (lowest and free_space_in_percent < most_extreme_free_space_in_percent)
+                    or (not lowest and free_space_in_percent > most_extreme_free_space_in_percent)
+            ):
+                most_extreme_free_space_in_percent = free_space_in_percent
+                volume_with_most_extreme_free_space = volume
+        return volume_with_most_extreme_free_space
+
+    @staticmethod
+    def move(source, destination, stop_sonarr=False, create_symlinks_after=False, test_run=False, logger=Logger(False)):
+        OsOperations.move_multiple([source], destination, stop_sonarr, create_symlinks_after, test_run, logger)
+
+    @staticmethod
+    def __move(source, destination, test_run=False, logger=Logger(False)):
         if test_run:
             logger.log('test run: move("%s", "%s")' % (source, destination))
         else:
@@ -82,6 +118,19 @@ class OsOperations(object):
             if not os.path.exists(destination):
                 os.makedirs(destination)
             move(source, destination)
+
+    @staticmethod
+    def move_multiple(sources, destination, stop_sonarr=False, create_symlinks_after=False, test_run=False,
+                      logger=Logger(False)):
+        from space_manager_helpers import SonarrApi
+        if stop_sonarr:
+            SonarrApi.stop_sonarr(test_run, logger)
+        for source in sources:
+            OsOperations.__move(source, destination, test_run, logger)
+        if stop_sonarr:
+            SonarrApi.start_sonarr(test_run, logger)
+        if create_symlinks_after:
+            create_symlinks(test_run, logger)
 
     @staticmethod
     def get_empty_sub_directories(
@@ -108,3 +157,14 @@ class OsOperations(object):
             else:
                 logger.log("----!!!!---- deleting folder %s ----!!!!----" % directory)
                 os.rmdir(directory)
+
+    @staticmethod
+    def get_tree_size(path):
+        """Return total size of files in given path and subdirs."""
+        total = 0
+        for entry in os.scandir(path):
+            if entry.is_dir(follow_symlinks=False):
+                total += OsOperations.get_tree_size(entry.path)
+            else:
+                total += entry.stat(follow_symlinks=False).st_size
+        return total

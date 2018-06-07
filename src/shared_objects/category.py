@@ -7,10 +7,12 @@ class Category(object):
                  prefix,
                  link_source_volumes,
                  data_volumes,
+                 sonarr_related=False
                  ):
         self.prefix = prefix
         self.link_source_volumes = link_source_volumes
         self.data_volumes = data_volumes
+        self.sonarr_related = sonarr_related
 
     @property
     def all_folders(self):

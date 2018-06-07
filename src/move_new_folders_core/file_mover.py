@@ -1,8 +1,7 @@
 # file_mover.py
 
-from create_symlinks import create_symlinks
 from shared_objects import LinkFolder, DataFolder
-from space_manager_helpers import Logger, OsOperations, SonarrApi
+from space_manager_helpers import Logger, OsOperations
 
 
 class FileMover(object):
@@ -19,23 +18,21 @@ class FileMover(object):
         self._logger.log('start of main function for ' + folder_name_prefix, 0, 1)
         self._logger.log('test run is set to %s' % str(self._test_run))
 
-        target_volume = OsOperations.get_volume_with_most_free_space(target_volumes, self._logger)
+        target_volume = OsOperations.get_emptiest_volume(target_volumes, self._logger)
         self._logger.log('target volume set to: ' + target_volume.to_string())
 
         self._logger.log('Search in %d source volume(s) for new folders' % len(source_volumes), 0, 1)
         source_folder_paths = self.__get_folder_paths_to_move(folder_name_prefix, source_volumes, minimum_age)
 
         if source_folder_paths:
-            SonarrApi.stop_sonarr(self._test_run, self._logger)
-            for path in source_folder_paths:
-                OsOperations.move(
-                    path,
-                    DataFolder(target_volume, folder_name_prefix).get_absolute_path(),
-                    self._test_run,
-                    self._logger
-                )
-            create_symlinks(self._test_run, self._logger)
-            SonarrApi.start_sonarr(self._test_run, self._logger)
+            OsOperations.move_multiple(
+                sources=source_folder_paths,
+                destination=DataFolder(target_volume, folder_name_prefix).get_absolute_path(),
+                stop_sonarr=category.sonarr_related,
+                create_symlinks_after=True,
+                test_run=self._test_run,
+                logger=self._logger
+            )
 
         self._logger.log('end of main function', -1)
         self._logger.divider()

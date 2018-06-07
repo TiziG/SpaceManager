@@ -8,7 +8,7 @@ from move_new_folders_core import FileMover
 from space_manager_helpers import Logger
 
 # configuration-----------
-TEST_RUN = False
+TEST_RUN = True
 LOGGING = True
 MINIMUM_AGE = datetime.timedelta(hours=5)
 # ------------------------
