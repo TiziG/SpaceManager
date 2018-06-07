@@ -1,2 +1,1 @@
-from move_new_folders_core.disk_info import DiskInfo
 from move_new_folders_core.file_mover import FileMover
