@@ -21,3 +21,7 @@ class Logger(object):
     @staticmethod
     def divider(length=DIVIDER_LENGTH):
         print(''.join(str(x) for x in ['-'] * length))
+
+    @staticmethod
+    def line():
+        print('')

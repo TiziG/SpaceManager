@@ -75,6 +75,7 @@ class FileMover(object):
         else:
             self._logger.log('stopping sonarr...')
             call(["warden", "stop", "sonarr_2"])
+            self._logger.line()
             self._logger.log('...stopping sonarr done')
 
     def __start_sonarr(self):
