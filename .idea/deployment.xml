@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" serverName="SpaceManager root@192.168.2.195:22">
+  <component name="PublishConfigData" autoUpload="Always" serverName="SpaceManager root@192.168.2.195:22" filePermissions="508">
     <serverData>
       <paths name="SpaceManager root@192.168.2.195:22">
         <serverdata>
@@ -9,6 +9,16 @@
           </mappings>
           <excludedPaths>
             <excludedPath path="/tmp/pyCharm/SpaceManager/.gitignore" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
+      <paths name="SpaceManagerLive">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/mnt/Data2TB-V1/Files2TB-V1/FreeNasScripts/SpaceManager" local="$PROJECT_DIR$/out/production/SpaceManager" web="/" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/.idea" />
           </excludedPaths>
         </serverdata>
       </paths>

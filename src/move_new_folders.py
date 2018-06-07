@@ -1,4 +1,5 @@
-# move_new_folders.py
+#!/usr/local/bin/python
+#  move_new_folders.py
 
 from move_new_folders_core import DiskInfo
 from move_new_folders_core import FileMover
