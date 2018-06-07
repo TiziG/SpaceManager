@@ -1,10 +1,10 @@
 # move_new_folders.py
 
-from move_new_folders_core import FileMover
 from move_new_folders_core import DiskInfo
+from move_new_folders_core import FileMover
 from space_manager_helpers import Logger
 
-TEST_RUN = True
+TEST_RUN = False
 LOGGING = True
 
 SERIES_PREFIX = 'Series'
