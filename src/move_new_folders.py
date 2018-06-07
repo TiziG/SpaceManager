@@ -1,8 +1,8 @@
 # move_new_folders.py
 
-from file_mover import FileMover
-from disk_info import DiskInfo
-from logger import Logger
+from move_new_folders_core import FileMover
+from move_new_folders_core import DiskInfo
+from space_manager_helpers import Logger
 
 TEST_RUN = True
 LOGGING = True

@@ -8,8 +8,8 @@ from stat import S_ISDIR, ST_CTIME
 from typing import List
 from shutil import move
 from subprocess import call
-from logger import Logger
-from disk_info import DiskInfo
+from space_manager_helpers import Logger
+from move_new_folders_core import DiskInfo
 
 
 class FileMover(object):
