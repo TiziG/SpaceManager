@@ -43,6 +43,8 @@ class FileMover(object):
             self._logger.log('test run: move("%s", "%s")' % (source, destination))
         else:
             self._logger.log('move("%s", "%s")' % (source, destination))
+            if not os.path.exists(destination):
+                os.makedirs(destination)
             move(source, destination)
 
     def __get_folder_paths_to_move(self, folder_name_prefix, source_volumes):
@@ -77,8 +79,9 @@ class FileMover(object):
         if self._test_run:
             self._logger.log('test run: sh /mnt/Data2TB-V1/Files2TB-V1/FreeNasScripts/createSymLinks.sh')
         else:
-            self._logger.log('sh /mnt/Data2TB-V1/Files2TB-V1/FreeNasScripts/createSymLinks.sh')
+            self._logger.log('calling createSymLinks.sh...')
             call(["sh", '/mnt/Data2TB-V1/Files2TB-V1/FreeNasScripts/createSymLinks.sh'])
+            self._logger.log('...createSymLinks.sh done')
 
     def __most_free_space(self, volumes: List[DiskInfo]) -> DiskInfo:
         most_free_space_in_percent = 0
