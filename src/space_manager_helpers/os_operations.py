@@ -82,3 +82,14 @@ class OsOperations(object):
             if not os.path.exists(destination):
                 os.makedirs(destination)
             move(source, destination)
+
+    @staticmethod
+    def remove_empty_sub_directories(
+            parent_path,
+            allow_symlinks=False,
+            minimum_age: datetime.timedelta = datetime.timedelta(days=0),
+            logger=Logger(False)
+    ):
+        for directory in OsOperations.get_sub_folders(parent_path, allow_symlinks, minimum_age, logger):
+            if not os.listdir(directory):
+                os.rmdir(directory)
