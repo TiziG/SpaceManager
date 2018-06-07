@@ -2,8 +2,9 @@
 
 from _datetime import datetime
 
+
 class Logger(object):
-    DIVIDER_LENGHT = 60
+    DIVIDER_LENGTH = 60
 
     def __init__(self, active=False):
         self.indentation = 0
@@ -14,9 +15,9 @@ class Logger(object):
         if self.active:
             date = str(datetime.now()) + ': '
             indentation = ''.join(str(x) for x in ['-'] * self.indentation)
-            print( date + indentation + message)
+            print(date + indentation + message)
         self.indentation += relative_indentation_next
 
     @staticmethod
-    def divider(length = DIVIDER_LENGHT):
+    def divider(length=DIVIDER_LENGTH):
         print(''.join(str(x) for x in ['-'] * length))

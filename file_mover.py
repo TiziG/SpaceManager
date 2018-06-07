@@ -118,8 +118,8 @@ class FileMover(object):
                         sub_folders.append(path)
                     else:
                         self._logger.log('Found a folder but its age (%dmin) is less than %dmin: %s'
-                                         % (modification_age.seconds//60,
-                                            FileMover.MINIMUM_AGE.seconds//60,
+                                         % (modification_age.seconds // 60,
+                                            FileMover.MINIMUM_AGE.seconds // 60,
                                             filename))
         return sub_folders
 
