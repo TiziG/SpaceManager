@@ -11,3 +11,12 @@ class DiskInfo(object):
         else:
             version_data = 'V'
         return str(self.tb) + 'TB-' + version_data + str(self.version)
+
+    def __key(self):
+        return self.tb, self.version
+
+    def __eq__(self, other):
+        return self.__key() == other.__key()
+
+    def __hash__(self):
+        return hash(self.__key())

@@ -5,8 +5,8 @@ class Categories(object):
         self.categories = categories
 
     @property
-    def all_volumes(self):
-        volumes = []
+    def all_folders(self):
+        folders = []
         for category in self.categories:
-            volumes.extend(category.all_volumes)
-        return set(volumes)
+            folders.extend(category.all_folders)
+        return set(folders)

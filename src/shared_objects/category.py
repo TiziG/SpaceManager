@@ -1,4 +1,6 @@
 # category.py
+import shared_objects
+
 
 class Category(object):
     def __init__(self,
@@ -11,8 +13,10 @@ class Category(object):
         self.data_volumes = data_volumes
 
     @property
-    def all_volumes(self):
-        volumes = []
-        volumes.extend(self.link_source_volumes)
-        volumes.extend(self.data_volumes)
-        return set(volumes)
+    def all_folders(self):
+        folders = []
+        for source_volume in self.link_source_volumes:
+            folders.append(shared_objects.LinkFolder(source_volume, self.prefix))
+        for data_volume in self.data_volumes:
+            folders.append(shared_objects.DataFolder(data_volume, self.prefix))
+        return set(folders)

@@ -38,7 +38,7 @@ class OsOperations(object):
                                    % (modification_age.seconds // 60,
                                       minimum_age.seconds // 60,
                                       filename))
-        logger.log('Found %d valid folder(s) in total' % len(sub_folders))
+        logger.log('Found %d valid sub folder(s) in total' % len(sub_folders))
         return sub_folders
 
     @staticmethod
@@ -84,12 +84,27 @@ class OsOperations(object):
             move(source, destination)
 
     @staticmethod
-    def remove_empty_sub_directories(
+    def get_empty_sub_directories(
             parent_path,
             allow_symlinks=False,
             minimum_age: datetime.timedelta = datetime.timedelta(days=0),
             logger=Logger(False)
     ):
+        empty_directories = []
         for directory in OsOperations.get_sub_folders(parent_path, allow_symlinks, minimum_age, logger):
             if not os.listdir(directory):
+                empty_directories.append(directory)
+        return empty_directories
+
+    @staticmethod
+    def remove_directories(
+            directories,
+            test_run=False,
+            logger=Logger(False)
+    ):
+        for directory in directories:
+            if test_run:
+                logger.log("----!!!!---- test run: deleting folder %s ----!!!!---- " % directory)
+            else:
+                logger.log("----!!!!---- deleting folder %s ----!!!!----" % directory)
                 os.rmdir(directory)
