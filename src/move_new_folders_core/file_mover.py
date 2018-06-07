@@ -1,15 +1,16 @@
 # file_mover.py
 
+import datetime
 import os
 import re
-import datetime
 from collections import namedtuple
-from stat import S_ISDIR, ST_CTIME
-from typing import List
 from shutil import move
+from stat import S_ISDIR, ST_CTIME
 from subprocess import call
-from space_manager_helpers import Logger
+from typing import List
+
 from move_new_folders_core import DiskInfo
+from space_manager_helpers import Logger
 
 
 class FileMover(object):
@@ -35,6 +36,7 @@ class FileMover(object):
             for path in source_folder_paths:
                 self.__actually_move(path, self.__folder_path(folder_name_prefix, target_volume, True))
             self.__create_symlinks()
+            self.__start_sonarr()
         self._logger.log('end of main function', -1)
         self._logger.divider()
 
@@ -74,6 +76,14 @@ class FileMover(object):
             self._logger.log('stopping sonarr...')
             call(["warden", "stop", "sonarr_2"])
             self._logger.log('...stopping sonarr done')
+
+    def __start_sonarr(self):
+        if self._test_run:
+            self._logger.log('test run: warden start sonarr_2')
+        else:
+            self._logger.log('starting sonarr...')
+            call(["warden", "start", "sonarr_2"])
+            self._logger.log('...starting sonarr done')
 
     def __create_symlinks(self):
         if self._test_run:
