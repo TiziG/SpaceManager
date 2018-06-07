@@ -10,7 +10,7 @@ from space_manager_helpers import Logger
 _n_tuple_config = namedtuple('config', 'fullest_threshold')
 
 # configuration-----------
-TEST_RUN = True
+TEST_RUN = False
 LOGGING = True
 CONFIG = _n_tuple_config(0.75)
 # ------------------------
