@@ -15,6 +15,8 @@ class Logger(object):
         if self.active:
             date = str(datetime.now()) + ': '
             indentation = ''.join(str(x) for x in ['-'] * self.indentation)
+            if indentation != '':
+                indentation += ' '
             print(date + indentation + message)
         self.indentation += relative_indentation_next
 
