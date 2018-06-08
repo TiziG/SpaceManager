@@ -20,6 +20,9 @@ class Logger(object):
             print(date + indentation + message)
         self._indentation += relative_indentation_next
 
+    def change_indentation(self, increment: int):
+        self._indentation += increment
+
     @staticmethod
     def divider(length=DIVIDER_LENGTH):
         print(''.join(str(x) for x in ['-'] * length))
