@@ -1,23 +1,30 @@
 #!/usr/local/bin/python
 #  distribute_files_evenly.py
+import datetime
 
-from collections import namedtuple
-
-from space_manager.config import CategoryAndVolumeDefinitions
-from space_manager.distribute_core import ReDistributer
+from space_manager.config import CategoryAndVolumeDefinitions, DistributerConfig
+from space_manager.distribute_core import Distributer
 from space_manager.helpers import Logger
 
-Config = namedtuple('config', 'fullest_threshold nr_of_runs')
-
 # configuration-----------
-TEST_RUN = False
+TEST_RUN = True
 LOGGING = True
-CONFIG = Config(0.75, 1)
+NR_OF_RUNS = 2
+FULLEST_THRESHOLD = 0.75
+MINIMUM_AGE = datetime.timedelta(hours=1)
 # ------------------------
 
 
 if __name__ == '__main__':
-    for _ in range(CONFIG.nr_of_runs):
-        distributer = ReDistributer(config=CONFIG, test_run=TEST_RUN, logger=Logger(LOGGING))
+    CONFIG = DistributerConfig(nr_of_runs=NR_OF_RUNS,
+                               fullest_threshold=FULLEST_THRESHOLD,
+                               minimum_age=MINIMUM_AGE,
+                               test_run=TEST_RUN,
+                               logger=Logger(LOGGING))
+    for i in range(CONFIG.nr_of_runs):
+        CONFIG.logger.divider()
+        CONFIG.logger.log("Run %d of %d" % (i + 1, CONFIG.nr_of_runs), 0, 1)
         for category in CategoryAndVolumeDefinitions.categories.categories:
-            distributer.distribute_from_data_folders(category)
+            distributer = Distributer(category, CONFIG)
+            distributer.distribute_from_data_folders()
+            CONFIG.logger.change_indentation(-1)
