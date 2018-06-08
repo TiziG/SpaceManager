@@ -18,6 +18,7 @@ class OsOperations(object):
     def get_sub_folders(
             parent_path,
             allow_symlinks=False,
+            empty_only=False,
             minimum_age: datetime.timedelta = datetime.timedelta(days=0),
             logger=Logger(False)
     ):
@@ -29,7 +30,10 @@ class OsOperations(object):
             except EnvironmentError:
                 continue  # file vanished or permission error
             else:
-                if allow_symlinks or S_ISDIR(st.st_mode):  # is regular directory?
+                if (
+                        (allow_symlinks or S_ISDIR(st.st_mode))  # symlink allowed or is regular directory
+                        and (not empty_only or not os.listdir(path))  # all dirs allowed or is empty
+                ):
                     modification_age = (datetime.datetime.now()
                                         - datetime.datetime.fromtimestamp(st[ST_CTIME]))
                     if modification_age > minimum_age:
@@ -131,19 +135,6 @@ class OsOperations(object):
             SonarrApi.start_sonarr(test_run, logger)
         if create_symlinks_after:
             create_symlinks(test_run, logger)
-
-    @staticmethod
-    def get_empty_sub_directories(
-            parent_path,
-            allow_symlinks=False,
-            minimum_age: datetime.timedelta = datetime.timedelta(days=0),
-            logger=Logger(False)
-    ):
-        empty_directories = []
-        for directory in OsOperations.get_sub_folders(parent_path, allow_symlinks, minimum_age, logger):
-            if not os.listdir(directory):
-                empty_directories.append(directory)
-        return empty_directories
 
     @staticmethod
     def remove_directories(

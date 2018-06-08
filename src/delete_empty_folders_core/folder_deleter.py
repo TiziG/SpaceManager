@@ -17,8 +17,9 @@ class FolderDeleter(object):
         self._logger.divider()
         self._logger.log("start of delete_empty_folders in %s" % folder.get_absolute_path(), 0, 1)
         self._logger.log("start search for empty directories", 0, 1)
-        empty_directories = OsOperations.get_empty_sub_directories(
+        empty_directories = OsOperations.get_sub_folders(
             folder.get_absolute_path(),
+            empty_only=True,
             minimum_age=minimum_age,
             logger=self._logger
         )
