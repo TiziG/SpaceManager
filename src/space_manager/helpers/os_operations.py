@@ -7,9 +7,9 @@ from shutil import move
 from stat import S_ISDIR, ST_CTIME
 from typing import List
 
-from create_symlinks import create_symlinks
-from shared_objects import Volume
-from space_manager_helpers import Logger
+from space_manager.create_symlinks import create_symlinks
+from space_manager.shared_objects import Volume
+from .logger import Logger
 
 
 class OsOperations(object):
@@ -26,16 +26,16 @@ class OsOperations(object):
         for filename in os.listdir(parent_path):
             path = os.path.join(parent_path, filename)
             try:
-                st = os.lstat(path)  # get info about the file (don't follow symlinks)
+                stats = os.lstat(path)  # get info about the file (don't follow symlinks)
             except EnvironmentError:
                 continue  # file vanished or permission error
             else:
                 if (
-                        (allow_symlinks or S_ISDIR(st.st_mode))  # symlink allowed or is regular directory
+                        (allow_symlinks or S_ISDIR(stats.st_mode))  # symlink allowed or is regular directory
                         and (not empty_only or not os.listdir(path))  # all dirs allowed or is empty
                 ):
                     modification_age = (datetime.datetime.now()
-                                        - datetime.datetime.fromtimestamp(st[ST_CTIME]))
+                                        - datetime.datetime.fromtimestamp(stats[ST_CTIME]))
                     if modification_age > minimum_age:
                         sub_folders.append(path)
                     else:
@@ -53,10 +53,10 @@ class OsOperations(object):
         Returned values is a named tuple with attributes 'total', 'used' and
         'free', which are the amount of total, used and free space, in bytes.
         """
-        st = os.statvfs(path)
-        free = st.f_bavail * st.f_frsize
-        total = st.f_blocks * st.f_frsize
-        used = (st.f_blocks - st.f_bfree) * st.f_frsize
+        stats = os.statvfs(path) # pylint: disable=no-member
+        free = stats.f_bavail * stats.f_frsize
+        total = stats.f_blocks * stats.f_frsize
+        used = (stats.f_blocks - stats.f_bfree) * stats.f_frsize
         _n_tuple_disk_usage = namedtuple('usage', 'total used free')
         return _n_tuple_disk_usage(total, used, free)
 
@@ -66,9 +66,9 @@ class OsOperations(object):
             logger=Logger(False)
     ) -> Volume:
         logger.log('%d possible target volumes. Searching for emptiest...' % len(volumes), 0, 1)
-        volume_with_most_free_space = OsOperations.get_volume_with_most_extreme_free_space(
+        volume_with_most_free_space = OsOperations.get_emptiest_or_fullest_volume(
             volumes,
-            lowest=False,
+            get_fullest=False,
             logger=logger
         )
         logger.log('search for emptiest volume finished', -1)
@@ -80,37 +80,42 @@ class OsOperations(object):
             logger=Logger(False)
     ) -> Volume:
         logger.log('%d possible target volumes. Searching for fullest...' % len(volumes), 0, 1)
-        volume_with_most_free_space = OsOperations.get_volume_with_most_extreme_free_space(
+        volume_with_most_free_space = OsOperations.get_emptiest_or_fullest_volume(
             volumes,
-            lowest=True,
+            get_fullest=True,
             logger=logger
         )
         logger.log('search for fullest volume finished', -1)
         return volume_with_most_free_space
 
     @staticmethod
-    def get_volume_with_most_extreme_free_space(
+    def get_emptiest_or_fullest_volume(
             volumes: List[Volume],
-            lowest,
+            get_fullest,
             logger=Logger(False)
     ) -> Volume:
-        most_extreme_free_space_in_percent = -1
-        volume_with_most_extreme_free_space = None
+        min_max_free_percentage = -1
+        min_max_free_volume = None
         for volume in volumes:
             volume_usage = OsOperations.disk_usage(volume.get_absolute_path())
             free_space_in_percent = (100 / volume_usage.total) * volume_usage.free
             logger.log('volume %s: %d%% empty' % (volume.to_string(), free_space_in_percent))
             if (
-                    most_extreme_free_space_in_percent == -1
-                    or (lowest and free_space_in_percent < most_extreme_free_space_in_percent)
-                    or (not lowest and free_space_in_percent > most_extreme_free_space_in_percent)
+                    min_max_free_percentage == -1
+                    or (get_fullest and free_space_in_percent < min_max_free_percentage)
+                    or (not get_fullest and free_space_in_percent > min_max_free_percentage)
             ):
-                most_extreme_free_space_in_percent = free_space_in_percent
-                volume_with_most_extreme_free_space = volume
-        return volume_with_most_extreme_free_space
+                min_max_free_percentage = free_space_in_percent
+                min_max_free_volume = volume
+        return min_max_free_volume
 
     @staticmethod
-    def move(source, destination, stop_sonarr=False, create_symlinks_after=False, test_run=False, logger=Logger(False)):
+    def move(source,
+             destination,
+             stop_sonarr=False,
+             create_symlinks_after=False,
+             test_run=False,
+             logger=Logger(False)): # d
         OsOperations.move_multiple([source], destination, stop_sonarr, create_symlinks_after, test_run, logger)
 
     @staticmethod
@@ -126,7 +131,7 @@ class OsOperations(object):
     @staticmethod
     def move_multiple(sources, destination, stop_sonarr=False, create_symlinks_after=False, test_run=False,
                       logger=Logger(False)):
-        from space_manager_helpers import SonarrApi
+        from .sonarr_api import SonarrApi
         if stop_sonarr:
             SonarrApi.stop_sonarr(test_run, logger)
         for source in sources:

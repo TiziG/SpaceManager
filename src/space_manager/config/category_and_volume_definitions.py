@@ -1,12 +1,12 @@
 # category_and_volumes_definition
 
-from shared_objects import DiskInfo, Category, Categories, Volume
+from space_manager.shared_objects import DiskInfo, Category, Categories, Volume
 
 DEFAULT_MOUNT_POINT = r'/mnt/'
 DEFAULT_DATA_PREFIX = 'Data'
 
 
-def volume_factory(disk_infos, sonarr_related=False, mount_point=DEFAULT_MOUNT_POINT, vol_prefix=DEFAULT_DATA_PREFIX):
+def volume_factory(disk_infos, mount_point=DEFAULT_MOUNT_POINT, vol_prefix=DEFAULT_DATA_PREFIX):
     volumes = []
     for disk_info in disk_infos:
         volumes.append(Volume(mount_point, vol_prefix, disk_info))

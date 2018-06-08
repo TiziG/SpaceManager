@@ -3,9 +3,9 @@
 
 import datetime
 
-from config import CategoryAndVolumeDefinitions
-from move_new_folders_core import FileMover
-from space_manager_helpers import Logger
+from space_manager.config import CategoryAndVolumeDefinitions
+from space_manager.distribute_core import Distributer
+from space_manager.helpers import Logger
 
 # configuration-----------
 TEST_RUN = False
@@ -14,6 +14,6 @@ MINIMUM_AGE = datetime.timedelta(hours=5)
 # ------------------------
 
 if __name__ == '__main__':
-    file_mover = FileMover(TEST_RUN, Logger(LOGGING))
+    FILE_MOVER = Distributer(TEST_RUN, Logger(LOGGING))
     for category in CategoryAndVolumeDefinitions.categories.categories:
-        file_mover.move_folders(category, MINIMUM_AGE)
+        FILE_MOVER.distribute_from_link_folders(category, MINIMUM_AGE)

@@ -1,6 +1,6 @@
 # folder_deleter.py
-from shared_objects import RootFolder
-from space_manager_helpers import Logger, OsOperations
+from space_manager.shared_objects import RootFolder
+from space_manager.helpers import Logger, OsOperations
 
 
 class FolderDeleter(object):

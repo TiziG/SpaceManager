@@ -1,5 +1,5 @@
 # category.py
-import shared_objects
+from .root_folder import LinkFolder, DataFolder
 
 
 class Category(object):
@@ -7,8 +7,7 @@ class Category(object):
                  prefix,
                  link_source_volumes,
                  data_volumes,
-                 sonarr_related=False
-                 ):
+                 sonarr_related=False):
         self.prefix = prefix
         self.link_source_volumes = link_source_volumes
         self.data_volumes = data_volumes
@@ -18,7 +17,7 @@ class Category(object):
     def all_folders(self):
         folders = []
         for source_volume in self.link_source_volumes:
-            folders.append(shared_objects.LinkFolder(source_volume, self.prefix))
+            folders.append(LinkFolder(source_volume, self.prefix))
         for data_volume in self.data_volumes:
-            folders.append(shared_objects.DataFolder(data_volume, self.prefix))
+            folders.append(DataFolder(data_volume, self.prefix))
         return set(folders)

@@ -16,7 +16,7 @@ class RootFolder(object):
         return self.prefix, self.volume
 
     def __eq__(self, other):
-        return self.__key() == other.__key()
+        return self.__key() == other.key()
 
     def __hash__(self):
         return hash(self.__key())
@@ -24,15 +24,11 @@ class RootFolder(object):
 
 class DataFolder(RootFolder):
     def get_absolute_path(self):
-        return (
-                super(DataFolder, self).get_absolute_path()
-                + self.volume.disk_info.to_string(is_link_target=True)
-        )
+        return (super(DataFolder, self).get_absolute_path()
+                + self.volume.disk_info.to_string(is_link_target=True))
 
 
 class LinkFolder(RootFolder):
     def get_absolute_path(self):
-        return (
-                super(LinkFolder, self).get_absolute_path()
-                + self.volume.disk_info.to_string(is_link_target=False)
-        )
+        return (super(LinkFolder, self).get_absolute_path()
+                + self.volume.disk_info.to_string(is_link_target=False))

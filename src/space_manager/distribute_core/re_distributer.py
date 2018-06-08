@@ -1,15 +1,15 @@
-# distributer.py
+# re_distributer.py
 import random
 
-from shared_objects import DataFolder
-from space_manager_helpers import Logger, OsOperations
+from space_manager.shared_objects import DataFolder
+from space_manager.helpers import Logger, OsOperations
 
 
-def b_to_gb(b):
+def b_to_gb(b):  # pylint: disable=invalid-name
     return b / 1_000_000_000
 
 
-class Distributer(object):
+class ReDistributer(object):
     def __init__(self, config, test_run=False, logger=Logger(False)):
         self._test_run = test_run
         self._logger = logger
@@ -17,7 +17,7 @@ class Distributer(object):
         self._logger.divider()
         self._logger.log("initialized Folder deleter with test run set to %s" % str(self._test_run))
 
-    def distribute(self, category):
+    def distribute_from_data_folders(self, category):
         self._logger.divider()
         self._logger.log('start of distribute for ' + category.prefix, 0, 1)
 
@@ -50,11 +50,10 @@ class Distributer(object):
         OsOperations.move(
             source=folder_to_move,
             destination=DataFolder(emptiest_volume, category.prefix).get_absolute_path(),
-            stop_sonarr=category.sonarr_related,
+            stop_sonarr=category.sonarr_related,  # pylint: disable=duplicate-code
             create_symlinks_after=True,
             test_run=self._test_run,
-            logger=self._logger
-        )
+            logger=self._logger)
 
         self._logger.log('End of distribute for ' + category.prefix, -1)
         self._logger.divider()

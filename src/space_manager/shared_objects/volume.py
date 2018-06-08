@@ -1,5 +1,5 @@
 # volume.py
-from shared_objects import DiskInfo
+from .disk_info import DiskInfo
 
 
 class Volume(object):
@@ -18,7 +18,7 @@ class Volume(object):
         return self.mount_point, self.disk_info, self.prefix
 
     def __eq__(self, other):
-        return self.__key() == other.__key()
+        return self.__key() == other.key()
 
     def __hash__(self):
         return hash(self.__key())

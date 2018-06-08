@@ -1,7 +1,7 @@
 # sonarr_api.py
 from subprocess import call
 
-from space_manager_helpers import Logger
+from .logger import Logger
 
 
 class SonarrApi(object):

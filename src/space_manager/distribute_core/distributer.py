@@ -1,15 +1,21 @@
-# file_mover.py
+# distributer.py
 
-from shared_objects import LinkFolder, DataFolder
-from space_manager_helpers import Logger, OsOperations
+from space_manager.shared_objects import LinkFolder, DataFolder
+from space_manager.helpers import Logger, OsOperations
 
 
-class FileMover(object):
+class Distributer(object):
+
     def __init__(self, test_run=False, logger=Logger(False)):
         self._test_run = test_run
         self._logger = logger
 
-    def move_folders(self, category, minimum_age):
+    def distribute_from_link_folders(self, category, minimum_age):
+        """ Moves all folder in the link-directories of a provided Category to
+            the data-directory with the most free space.
+            Parameters
+            minimum_age: move only folders older than this
+        """
         folder_name_prefix = category.prefix
         source_volumes = category.link_source_volumes
         target_volumes = category.data_volumes
@@ -18,8 +24,12 @@ class FileMover(object):
         self._logger.log('start of main function for ' + folder_name_prefix, 0, 1)
         self._logger.log('test run is set to %s' % str(self._test_run))
 
-        self._logger.log('Search in %d source volume(s) for new folders' % len(source_volumes), 0, 1)
-        source_folder_paths = self.__get_folder_paths_to_move(folder_name_prefix, source_volumes, minimum_age)
+        self._logger.log('Search in %d source volume(s) for new folders'
+                         % len(source_volumes), 0, 1)
+        source_folder_paths = self.__get_folder_paths_to_move(
+            folder_name_prefix,
+            source_volumes,
+            minimum_age)
         self._logger.change_indentation(-1)
 
         if not source_folder_paths:
@@ -35,8 +45,7 @@ class FileMover(object):
             stop_sonarr=category.sonarr_related,
             create_symlinks_after=True,
             test_run=self._test_run,
-            logger=self._logger
-        )
+            logger=self._logger)
 
         self.__end()
 

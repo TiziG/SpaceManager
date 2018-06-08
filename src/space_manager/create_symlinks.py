@@ -1,7 +1,7 @@
 # create_sym_links.py
 from subprocess import call
 
-from space_manager_helpers import Logger
+from space_manager.helpers import Logger
 
 
 def create_symlinks(test_run=False, logger=Logger(False)):
