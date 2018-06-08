@@ -7,18 +7,18 @@ class Logger(object):
     DIVIDER_LENGTH = 60
 
     def __init__(self, active=False):
-        self.indentation = 0
-        self.active = active
+        self._indentation = 0
+        self._active = active
 
     def log(self, message, relative_indentation_self=0, relative_indentation_next=0):
-        self.indentation += relative_indentation_self
-        if self.active:
+        self._indentation += relative_indentation_self
+        if self._active:
             date = str(datetime.now()) + ': '
-            indentation = ''.join(str(x) for x in ['-'] * self.indentation)
+            indentation = ''.join(str(x) for x in ['-'] * self._indentation)
             if indentation != '':
                 indentation += ' '
             print(date + indentation + message)
-        self.indentation += relative_indentation_next
+        self._indentation += relative_indentation_next
 
     @staticmethod
     def divider(length=DIVIDER_LENGTH):
