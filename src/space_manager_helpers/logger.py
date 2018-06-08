@@ -10,7 +10,7 @@ class Logger(object):
         self._indentation = 0
         self._active = active
 
-    def log(self, message, relative_indentation_self=0, relative_indentation_next=0):
+    def log(self, message: str, relative_indentation_self=0, relative_indentation_next=0):
         self._indentation += relative_indentation_self
         if self._active:
             date = str(datetime.now()) + ': '
