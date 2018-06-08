@@ -18,22 +18,28 @@ class FileMover(object):
         self._logger.log('start of main function for ' + folder_name_prefix, 0, 1)
         self._logger.log('test run is set to %s' % str(self._test_run))
 
-        target_volume = OsOperations.get_emptiest_volume(target_volumes, self._logger)
-        self._logger.log('target volume set to: ' + target_volume.to_string())
-
         self._logger.log('Search in %d source volume(s) for new folders' % len(source_volumes), 0, 1)
         source_folder_paths = self.__get_folder_paths_to_move(folder_name_prefix, source_volumes, minimum_age)
 
-        if source_folder_paths:
-            OsOperations.move_multiple(
-                sources=source_folder_paths,
-                destination=DataFolder(target_volume, folder_name_prefix).get_absolute_path(),
-                stop_sonarr=category.sonarr_related,
-                create_symlinks_after=True,
-                test_run=self._test_run,
-                logger=self._logger
-            )
+        if not source_folder_paths:
+            self.__end()
+            return
 
+        target_volume = OsOperations.get_emptiest_volume(target_volumes, self._logger)
+        self._logger.log('target volume set to: ' + target_volume.to_string())
+
+        OsOperations.move_multiple(
+            sources=source_folder_paths,
+            destination=DataFolder(target_volume, folder_name_prefix).get_absolute_path(),
+            stop_sonarr=category.sonarr_related,
+            create_symlinks_after=True,
+            test_run=self._test_run,
+            logger=self._logger
+        )
+
+        self.__end()
+
+    def __end(self):
         self._logger.log('end of main function', -1)
         self._logger.divider()
 
