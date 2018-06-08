@@ -7,9 +7,6 @@
           <mappings>
             <mapping deploy="tmp/pyCharm/SpaceManager" local="$PROJECT_DIR$" web="/" />
           </mappings>
-          <excludedPaths>
-            <excludedPath path="/tmp/pyCharm/SpaceManager/.gitignore" />
-          </excludedPaths>
         </serverdata>
       </paths>
       <paths name="SpaceManagerLive">
