@@ -1,6 +1,9 @@
 # folder_deleter.py
-from space_manager.shared_objects import RootFolder
+
+import datetime
+
 from space_manager.helpers import Logger, OsOperations
+from space_manager.shared_objects import RootFolder
 
 
 class FolderDeleter(object):
@@ -13,19 +16,19 @@ class FolderDeleter(object):
         self._logger.divider()
         self._logger.log("initialized Folder deleter with test run set to %s" % str(self._test_run))
 
-    def delete_empty_folders(self, folder: RootFolder, minimum_age):
+    def delete_empty_folders(self, folder: RootFolder, minimum_age: datetime.timedelta):
         self._logger.divider()
         self._logger.log("start of delete_empty_folders in %s" % folder.get_absolute_path(), 0, 1)
         self._logger.log("start search for empty directories", 0, 1)
         empty_directories = OsOperations.get_sub_folders(
-            folder.get_absolute_path(),
+            parent_path=folder.get_absolute_path(),
             empty_only=True,
             minimum_age=minimum_age,
             logger=self._logger
         )
         self._logger.log("end search for empty directories. Found %d" % len(empty_directories), -1)
         OsOperations.remove_directories(
-            empty_directories,
+            directories=empty_directories,
             test_run=self._test_run,
             logger=self._logger
         )

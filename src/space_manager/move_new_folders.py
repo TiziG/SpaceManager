@@ -15,7 +15,12 @@ MINIMUM_AGE = datetime.timedelta(hours=5)
 
 if __name__ == '__main__':
     for category in CategoryAndVolumeDefinitions.categories.categories:
-        distributor = Distributer(category, DistributerConfig(test_run=TEST_RUN,
-                                                              logger=Logger(LOGGING),
-                                                              minimum_age=MINIMUM_AGE))
+        distributor = Distributer(
+            category,
+            DistributerConfig(
+                test_run=TEST_RUN,
+                logger=Logger(LOGGING),
+                minimum_age=MINIMUM_AGE
+            )
+        )
         distributor.distribute_from_link_folders()

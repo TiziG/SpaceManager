@@ -1,4 +1,5 @@
 # sonarr_api.py
+
 from subprocess import call
 
 from .logger import Logger

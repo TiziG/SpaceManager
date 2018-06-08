@@ -1,11 +1,11 @@
 # disk_info.py
 
 class DiskInfo(object):
-    def __init__(self, terra_byte, version=1):
+    def __init__(self, terra_byte: int, version=1):
         self.terra_byte = terra_byte
         self.version = version
 
-    def to_string(self, is_link_target=False):
+    def to_string(self, is_link_target=False) -> str:
         if is_link_target:
             version_data = 'D'
         else:

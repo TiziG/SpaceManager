@@ -1,5 +1,6 @@
 #!/usr/local/bin/python
 #  delete_empty_folders.py
+
 import datetime
 
 from space_manager.config import CategoryAndVolumeDefinitions
@@ -7,7 +8,7 @@ from space_manager.delete_empty_folders_core import FolderDeleter
 from space_manager.helpers import Logger
 
 # configuration-----------
-TEST_RUN = False
+TEST_RUN = True
 LOGGING = True
 MINIMUM_AGE = datetime.timedelta(hours=1)
 # ------------------------
