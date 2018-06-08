@@ -20,6 +20,7 @@ class FileMover(object):
 
         self._logger.log('Search in %d source volume(s) for new folders' % len(source_volumes), 0, 1)
         source_folder_paths = self.__get_folder_paths_to_move(folder_name_prefix, source_volumes, minimum_age)
+        self._logger.change_indentation(-1)
 
         if not source_folder_paths:
             self.__end()
