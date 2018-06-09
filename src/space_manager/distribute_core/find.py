@@ -26,7 +26,7 @@ class Find(object):
     def a_folder_small_enough(config: DistributerConfig, emptiest_free: int, fullest_free,
                               parent_folder: DataFolder) -> str:
         max_movable_size = (emptiest_free - fullest_free) / 2
-        config.logger.log("Max folder size to be considered for moving: %dGB" %
+        config.logger.log("Max folder size to be considered: %dGB" %
                           Converter.b_to_gb(max_movable_size))
         possible_folders = [
             folder for
@@ -37,7 +37,7 @@ class Find(object):
         if not possible_folders:
             return ''
         folder_to_move = random.choice(possible_folders)
-        config.logger.log("choosing folder (%dGB): %s" %
+        config.logger.log("choosing a random folder (%dGB): %s" %
                           (Converter.b_to_gb(OsOperations.get_tree_size(folder_to_move)),
                            folder_to_move))
         return folder_to_move
