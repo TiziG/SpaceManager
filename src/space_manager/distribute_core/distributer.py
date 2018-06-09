@@ -79,16 +79,15 @@ class Distributer(object):
             self.__end(function_name)
             return
 
-        folder_to_move = Find.a_folder_small_enough(
-            self._config,
-            emptiest_free,
-            fullest_free,
-            DataFolder(fullest_volume, self.category.prefix)
-        )
+        self._logger.log('Search for small enough folders', 0, 1)
+        folder_to_move = Find.a_folder_small_enough(self._config, emptiest_free, fullest_free,
+                                                    DataFolder(fullest_volume, self.category.prefix))
+        self._logger.change_indentation(-1)
         if not folder_to_move:
             self.__end(function_name)
             return
 
+        self._logger.log('start moving procedure', 0, 1)
         OsOperations.move(
             source=folder_to_move,
             destination=DataFolder(emptiest_volume, self.category.prefix).get_absolute_path(),
@@ -97,6 +96,7 @@ class Distributer(object):
             test_run=self._test_run,
             logger=self._logger
         )
+        self._logger.change_indentation(-1)
 
         self.__end(function_name)
 

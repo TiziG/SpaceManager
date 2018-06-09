@@ -35,7 +35,6 @@ class Find(object):
         ]
         config.logger.log("%d folders meet criteria" % len(possible_folders))
         if not possible_folders:
-            config.logger.log_condition_not_met()
             return ''
         folder_to_move = random.choice(possible_folders)
         config.logger.log("choosing folder (%dGB): %s" %

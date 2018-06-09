@@ -31,11 +31,11 @@ class Logger(object):
     def line():
         print('')
 
-    def log_condition_met(self):
-        self.log("condition met, continuing...")
-
-    def log_condition_not_met(self):
-        self.log("condition not met")
+    def log_condition(self, result: bool):
+        if result:
+            self.log("condition met")
+        else:
+            self.log("condition not met")
 
     def log_start(self, title: str):
         self.divider()
