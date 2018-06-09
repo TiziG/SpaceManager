@@ -1,6 +1,6 @@
 from typing import List
 
-from space_manager.shared_objects import DiskInfo, Volume
+from space_manager._shared_objects import DiskInfo, Volume
 from .mount_point_and_volume_config import DEFAULT_DATA_PREFIX, DEFAULT_MOUNT_POINT
 
 

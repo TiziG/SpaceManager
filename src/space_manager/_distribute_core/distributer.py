@@ -1,8 +1,8 @@
 # distributer.py
 
-from space_manager.config import DistributerConfig
-from space_manager.helpers import OsOperations
-from space_manager.shared_objects import Category, DataFolder
+from space_manager._config import DistributerConfig
+from space_manager._helpers import OsOperations
+from space_manager._shared_objects import Category, DataFolder
 from .check import Check
 from .find import Find
 

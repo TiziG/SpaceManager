@@ -7,8 +7,8 @@ from shutil import move
 from stat import ST_CTIME, S_ISDIR
 from typing import List
 
+from space_manager._shared_objects import Volume
 from space_manager.create_symlinks import create_symlinks
-from space_manager.shared_objects import Volume
 from .logger import Logger
 
 Usage = namedtuple('Usage', 'total used free')

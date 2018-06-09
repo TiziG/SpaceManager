@@ -1,6 +1,6 @@
 # category_and_volumes_definition
 
-from space_manager.shared_objects import Category, CategoryCollection, DiskInfo
+from space_manager._shared_objects import Category, CategoryCollection, DiskInfo
 from .voleme_factory import volume_factory
 
 CATEGORY_COLLECTION = CategoryCollection([
