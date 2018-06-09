@@ -3,7 +3,7 @@
 import datetime
 from collections import namedtuple
 
-from space_manager._helpers import Logger
+from .._helpers import Logger
 
 # default _config ------------------------
 FULLEST_THRESHOLD = 0.80

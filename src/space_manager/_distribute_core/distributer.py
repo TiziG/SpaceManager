@@ -1,10 +1,10 @@
 # distributer.py
 
-from space_manager._config import DistributerConfig
-from space_manager._helpers import OsOperations
-from space_manager._shared_objects import Category, DataFolder
 from .check import Check
 from .find import Find
+from .._config import DistributerConfig
+from .._helpers import OsOperations
+from .._shared_objects import Category, DataFolder
 
 
 class Distributer(object):

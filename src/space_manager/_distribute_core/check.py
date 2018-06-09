@@ -1,4 +1,4 @@
-from space_manager._helpers import Converter, Usage
+from .._helpers import Converter, Usage
 
 
 class Check(object):

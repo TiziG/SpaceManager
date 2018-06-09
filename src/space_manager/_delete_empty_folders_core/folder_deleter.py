@@ -2,8 +2,8 @@
 
 import datetime
 
-from space_manager._helpers import Logger, OsOperations
-from space_manager._shared_objects import RootFolder
+from .._helpers import Logger, OsOperations
+from .._shared_objects import RootFolder
 
 
 class FolderDeleter(object):

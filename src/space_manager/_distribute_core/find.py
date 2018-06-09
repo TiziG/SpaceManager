@@ -1,9 +1,9 @@
 import random
 from typing import List
 
-from space_manager._config import DistributerConfig
-from space_manager._helpers import Converter, OsOperations
-from space_manager._shared_objects import DataFolder, LinkFolder, Volume
+from .._config import DistributerConfig
+from .._helpers import Converter, OsOperations
+from .._shared_objects import DataFolder, LinkFolder, Volume
 
 
 class Find(object):
