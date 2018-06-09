@@ -3,7 +3,7 @@
 
 import datetime
 
-from space_manager.config import CategoryAndVolumeDefinitions, DistributerConfig
+from space_manager.config import CATEGORY_COLLECTION, DistributerConfig
 from space_manager.distribute_core import Distributer
 from space_manager.helpers import Logger
 
@@ -27,7 +27,7 @@ if __name__ == '__main__':
     for i in range(CONFIG.nr_of_runs):
         CONFIG.logger.divider()
         CONFIG.logger.log("Run %d of %d" % (i + 1, CONFIG.nr_of_runs), 0, 1)
-        for category in CategoryAndVolumeDefinitions.categories.categories:
+        for category in CATEGORY_COLLECTION.categories:
             distributer = Distributer(category, CONFIG)
             distributer.distribute_from_data_folders()
         CONFIG.logger.change_indentation(-1)

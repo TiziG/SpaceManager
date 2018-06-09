@@ -3,7 +3,7 @@
 
 import datetime
 
-from space_manager.config import CategoryAndVolumeDefinitions, DistributerConfig
+from space_manager.config import CATEGORY_COLLECTION, DistributerConfig
 from space_manager.distribute_core import Distributer
 from space_manager.helpers import Logger
 
@@ -14,7 +14,7 @@ MINIMUM_AGE = datetime.timedelta(hours=5)
 # ------------------------
 
 if __name__ == '__main__':
-    for category in CategoryAndVolumeDefinitions.categories.categories:
+    for category in CATEGORY_COLLECTION.categories:
         distributor = Distributer(
             category,
             DistributerConfig(

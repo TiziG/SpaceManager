@@ -6,7 +6,7 @@ from .category import Category
 from .root_folder import RootFolder
 
 
-class Categories(object):
+class CategoryCollection(object):
     def __init__(self, categories: List[Category]):
         self.categories = categories
 

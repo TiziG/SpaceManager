@@ -1,2 +1,2 @@
-from .category_and_volume_definitions import CategoryAndVolumeDefinitions
+from .category_definitions import CATEGORY_COLLECTION
 from .distributer_config import DistributerConfig

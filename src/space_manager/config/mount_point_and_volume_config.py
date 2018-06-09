@@ -1,0 +1,2 @@
+DEFAULT_MOUNT_POINT = r'/mnt/'
+DEFAULT_DATA_PREFIX = 'Data'
