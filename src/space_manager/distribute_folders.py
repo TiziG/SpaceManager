@@ -3,9 +3,9 @@
 
 import datetime
 
-from space_manager._config import CATEGORY_COLLECTION, DistributerConfig
-from space_manager._distribute_core import Distributer
-from space_manager._helpers import Logger
+from ._config import CATEGORY_COLLECTION, DistributerConfig
+from ._distribute_core import Distributer
+from ._helpers import Logger
 
 # configuration-----------
 TEST_RUN = False
@@ -20,9 +20,9 @@ def distribute_folders():
         distributor = Distributer(
             category,
             DistributerConfig(
+                minimum_age=MINIMUM_AGE,
                 test_run=TEST_RUN,
                 logger=Logger(LOGGING),
-                minimum_age=MINIMUM_AGE
             )
         )
         distributor.distribute_from_link_folders()

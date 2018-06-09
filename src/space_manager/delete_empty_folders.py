@@ -3,9 +3,9 @@
 
 import datetime
 
-from space_manager._config import CATEGORY_COLLECTION
-from space_manager._delete_empty_folders_core import FolderDeleter
-from space_manager._helpers import Logger
+from ._config import CATEGORY_COLLECTION
+from ._delete_empty_folders_core import FolderDeleter
+from ._helpers import Logger
 
 # configuration-----------
 TEST_RUN = False

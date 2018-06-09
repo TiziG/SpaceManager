@@ -2,9 +2,9 @@
 
 import datetime
 
-from space_manager._config import CATEGORY_COLLECTION, DistributerConfig
-from space_manager._distribute_core import Distributer
-from space_manager._helpers import Logger
+from ._config import CATEGORY_COLLECTION, DistributerConfig
+from ._distribute_core import Distributer
+from ._helpers import Logger
 
 # configuration-----------
 TEST_RUN = False
@@ -19,8 +19,8 @@ MINIMUM_AGE = datetime.timedelta(hours=1)
 
 def redistribute_folders():
     config = DistributerConfig(
-        nr_of_runs=NR_OF_RUNS,
         fullest_threshold=FULLEST_THRESHOLD,
+        nr_of_runs=NR_OF_RUNS,
         minimum_age=MINIMUM_AGE,
         test_run=TEST_RUN,
         logger=Logger(LOGGING)
