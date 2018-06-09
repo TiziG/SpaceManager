@@ -8,7 +8,7 @@ from space_manager.distribute_core import Distributer
 from space_manager.helpers import Logger
 
 # configuration-----------
-TEST_RUN = True
+TEST_RUN = False
 LOGGING = True
 NR_OF_RUNS = 2
 FULLEST_THRESHOLD = 0.75
