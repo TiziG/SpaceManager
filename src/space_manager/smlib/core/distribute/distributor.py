@@ -1,13 +1,13 @@
 # distributer.py
 
+from space_manager.smlib.config import DistributerConfig
+from space_manager.smlib.helpers import OsOperations
+from space_manager.smlib.models import Category, DataFolder
 from .check import Check
 from .find import Find
-from .._config import DistributerConfig
-from .._helpers import OsOperations
-from .._shared_objects import Category, DataFolder
 
 
-class Distributer(object):
+class Distributor(object):
 
     def __init__(self, category: Category, config: DistributerConfig):
         self.category = category

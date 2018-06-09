@@ -1,7 +1,7 @@
 from typing import List
 
+from space_manager.smlib.models import DiskInfo, Volume
 from .mount_point_and_volume_config import DEFAULT_DATA_PREFIX, DEFAULT_MOUNT_POINT
-from .._shared_objects import DiskInfo, Volume
 
 
 def volume_factory(

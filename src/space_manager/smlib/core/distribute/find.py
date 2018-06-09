@@ -1,9 +1,9 @@
 import random
 from typing import List
 
-from .._config import DistributerConfig
-from .._helpers import Converter, OsOperations
-from .._shared_objects import DataFolder, LinkFolder, Volume
+from space_manager.smlib.config import DistributerConfig
+from space_manager.smlib.helpers import Converter, OsOperations
+from space_manager.smlib.models import DataFolder, LinkFolder, Volume
 
 
 class Find(object):

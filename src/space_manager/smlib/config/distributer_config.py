@@ -3,9 +3,9 @@
 import datetime
 from collections import namedtuple
 
-from .._helpers import Logger
+from space_manager.smlib.helpers import Logger
 
-# default _config ------------------------
+# default config ------------------------
 FULLEST_THRESHOLD = 0.80
 NR_OF_RUNS = 1
 MINIMUM_AGE = datetime.timedelta(hours=0)

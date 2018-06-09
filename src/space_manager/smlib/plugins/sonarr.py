@@ -1,14 +1,14 @@
-# sonarr_api.py
+# sonarr.py
 
 from subprocess import call
 
-from .logger import Logger
+from space_manager.smlib.helpers.logger import Logger
 
 
-class SonarrApi(object):
+class Sonarr(object):
 
     @staticmethod
-    def stop_sonarr(test_run=False, logger=Logger(False)):
+    def stop(test_run=False, logger=Logger(False)):
         if test_run:
             logger.log('test run: warden stop sonarr_2')
         else:
@@ -18,7 +18,7 @@ class SonarrApi(object):
             logger.log('...stopping sonarr done')
 
     @staticmethod
-    def start_sonarr(test_run=False, logger=Logger(False)):
+    def start(test_run=False, logger=Logger(False)):
         if test_run:
             logger.log('test run: warden start sonarr_2')
         else:

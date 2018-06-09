@@ -7,9 +7,9 @@ from shutil import move
 from stat import ST_CTIME, S_ISDIR
 from typing import List
 
+from space_manager.smlib.core.symlinks.create import create_symlinks
+from space_manager.smlib.models import Volume
 from .logger import Logger
-from .._shared_objects import Volume
-from ..create_symlinks import create_symlinks
 
 Usage = namedtuple('Usage', 'total used free')
 
@@ -136,14 +136,14 @@ class OsOperations(object):
             test_run=False,
             logger=Logger(False)
     ):
-        from .sonarr_api import SonarrApi
+        from space_manager.smlib.plugins.sonarr import Sonarr
 
         if stop_sonarr:
-            SonarrApi.stop_sonarr(test_run, logger)
+            Sonarr.stop(test_run, logger)
         for source in sources:
             OsOperations.__move(source, destination, test_run, logger)
         if stop_sonarr:
-            SonarrApi.start_sonarr(test_run, logger)
+            Sonarr.start(test_run, logger)
         if create_symlinks_after:
             create_symlinks(test_run, logger)
 

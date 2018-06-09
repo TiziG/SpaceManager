@@ -1,4 +1,4 @@
-from .._helpers import Converter, Usage
+from space_manager.smlib.helpers import Converter, Usage
 
 
 class Check(object):

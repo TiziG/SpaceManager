@@ -1,3 +1,1 @@
-from .delete_empty_folders import delete_empty_folders
-from .distribute_folders import distribute_folders
-from .redistribute_folders import redistribute_folders
+from space_manager.api import delete_empty_folders, distribute_folders, redistribute_folders
