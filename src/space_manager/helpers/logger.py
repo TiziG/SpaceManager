@@ -30,3 +30,17 @@ class Logger(object):
     @staticmethod
     def line():
         print('')
+
+    def log_condition_met(self):
+        self.log("condition met, continuing...")
+
+    def log_condition_not_met(self):
+        self.log("condition not met")
+
+    def log_start(self, title: str):
+        self.divider()
+        self.log('Start of %s' % title, 0, 1)
+
+    def log_end(self, title: str):
+        self.log('End of %s' % title, -1)
+        self.divider()
