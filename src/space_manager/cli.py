@@ -10,6 +10,7 @@ class Options(Enum):
     TEST_RUN = 'test_run'
     MINIMUM_AGE = 'minimum_age'
     FULLEST_THRESHOLD = 'fullest_threshold'
+    NR_OF_RUNS = 'nr_of_runs'
     CATEGORIES = 'categories'
 
 
@@ -66,6 +67,8 @@ def run() -> None:
     parser_redistribute_folders.add_argument(
         "-f", "--fullest-threshold", dest=Options.FULLEST_THRESHOLD.value, type=int, choices=range(100),
         help="minimum used space in %% of the fullest volume to start redistribution")
+    parser_redistribute_folders.add_argument(
+        "-r", "--repeat", dest=Options.NR_OF_RUNS.value, type=int, help="run command multiple times")
     parser_redistribute_folders.add_argument(
         "-c", "--categories", dest=Options.CATEGORIES.value, type=str, nargs='+', choices=CATEGORY_COLLECTION.keys,
         help="limit redistribution to specific categories")
