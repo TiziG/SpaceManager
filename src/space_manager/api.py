@@ -22,9 +22,8 @@ def redistribute_folders(
         nr_of_runs=1,
         fullest_threshold=75,
         minimum_age=1,
-        category='',
+        categories=CATEGORY_COLLECTION.keys,
         test_run=False,
         logging=False):
     commands.redistribute_folders(nr_of_runs, float(fullest_threshold) / float(100),
-                                  datetime.timedelta(hours=minimum_age),
-                                  [category] if category else CATEGORY_COLLECTION.keys, test_run, logging)
+                                  datetime.timedelta(hours=minimum_age), categories, test_run, logging)
