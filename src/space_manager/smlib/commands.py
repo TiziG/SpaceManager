@@ -1,4 +1,5 @@
 import datetime
+from typing import List
 
 from space_manager.smlib.config import CATEGORY_COLLECTION, DistributerConfig
 from space_manager.smlib.core.delete import FolderDeleter
@@ -33,7 +34,7 @@ def distribute_folders(minimum_age=datetime.timedelta(hours=5),
     logger.log("distribute_folders end", -1, forced=True)
 
 
-def redistribute_folders(nr_of_runs, fullest_threshold, minimum_age, test_run, logging):
+def redistribute_folders(nr_of_runs, fullest_threshold, minimum_age, categories: List[str], test_run, logging):
     config = DistributerConfig(
         fullest_threshold=fullest_threshold,
         nr_of_runs=nr_of_runs,
@@ -46,7 +47,8 @@ def redistribute_folders(nr_of_runs, fullest_threshold, minimum_age, test_run, l
         config.logger.divider()
         config.logger.log("Run %d of %d" % (i + 1, config.nr_of_runs), 0, 1)
         for category in CATEGORY_COLLECTION.categories:
-            distributer = Distributor(category, config)
-            distributer.distribute_from_data_folders()
+            if category.prefix in categories:
+                distributer = Distributor(category, config)
+                distributer.distribute_from_data_folders()
         config.logger.change_indentation(-1)
     config.logger.log("redistribute_folders end", -1, forced=True)

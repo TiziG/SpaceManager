@@ -1,12 +1,14 @@
 import argparse
 
 from space_manager import api
+from space_manager.smlib.config import CATEGORY_COLLECTION
 
 OPTIONS = [
     'logging',
     'test_run',
     'minimum_age',
-    'fullest_threshold'
+    'fullest_threshold',
+    'category'
 ]
 
 
@@ -62,6 +64,9 @@ def run() -> None:
     parser_redistribute_folders.add_argument(
         "-f", "--fullest-threshold", dest='fullest_threshold', type=int, choices=range(100),
         help="minimum used space in %% of the fullest volume to start redistribution")
+    parser_redistribute_folders.add_argument(
+        "-c", "--category", dest='category', type=str, choices=CATEGORY_COLLECTION.keys,
+        help="limit redistribution to a category")
     parser_redistribute_folders.set_defaults(func=redistribute_folders)
 
     args = parser.parse_args()

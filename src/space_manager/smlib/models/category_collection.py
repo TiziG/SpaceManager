@@ -16,3 +16,7 @@ class CategoryCollection(object):
         for category in self.categories:
             folders.extend(category.all_folders)
         return set(folders)
+
+    @property
+    def keys(self) -> List[str]:
+        return [category.prefix for category in self.categories]
