@@ -54,7 +54,7 @@ def run() -> None:
                                            help="minimum age in hours for folders to be moved", type=int)
     parser_distribute_folders.set_defaults(func=distribute_folders)
 
-    # command distribute-folders-evenly
+    # command redistribute-folders-evenly
     parser_redistribute_folders = subparsers.add_parser(
         'redistribute', help='moves folders from one Dx directory to another one with more free space')
     parser_redistribute_folders.add_argument(
