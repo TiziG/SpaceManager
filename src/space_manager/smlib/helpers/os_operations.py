@@ -4,6 +4,7 @@ import datetime
 import os
 from collections import namedtuple
 from shutil import move
+from stat import *
 from stat import ST_CTIME, S_ISDIR
 from typing import List
 
@@ -119,13 +120,16 @@ class OsOperations(object):
 
     @staticmethod
     def __move(source: str, destination: str, test_run=False, logger=Logger(False)):
+        complete_dest_path = '{}/{}'.format(destination, os.path.split(source)[1])
         if test_run:
             logger.log('test run: move("%s", "%s")' % (source, destination))
         else:
             logger.log('move("%s", "%s")' % (source, destination))
             if not os.path.exists(destination):
                 os.makedirs(destination)
+            source_stat = os.stat(source)
             move(source, destination)
+            os.chown(complete_dest_path, source_stat[ST_UID], source_stat[ST_GID])
 
     @staticmethod
     def move_multiple(
