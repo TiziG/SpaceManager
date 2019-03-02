@@ -5,7 +5,7 @@ import os
 from collections import namedtuple
 from shutil import move
 from stat import *
-from stat import ST_CTIME, S_ISDIR
+from stat import S_ISDIR
 from typing import List
 
 from space_manager.smlib.core.symlinks.create import create_symlinks
@@ -38,7 +38,7 @@ class OsOperations(object):
                         and (not empty_only or not os.listdir(path))  # all dirs allowed or is empty
                 ):
                     modification_age = (datetime.datetime.now()
-                                        - datetime.datetime.fromtimestamp(stats[ST_CTIME]))
+                                        - datetime.datetime.fromtimestamp(stats[ST_MTIME]))
                     if modification_age > minimum_age:
                         sub_folders.append(path)
                     else:
