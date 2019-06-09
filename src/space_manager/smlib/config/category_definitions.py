@@ -16,7 +16,7 @@ CATEGORY_COLLECTION = CategoryCollection([
             DiskInfo(4, 3),
             DiskInfo(4, 4),
             DiskInfo(10, 1),
-            DiskInfo(10, 2)
+            # DiskInfo(10, 2)
         ])
     ),
     Category(
@@ -30,7 +30,7 @@ CATEGORY_COLLECTION = CategoryCollection([
             DiskInfo(6, 3),
             DiskInfo(6, 4),
             DiskInfo(10, 1),
-            DiskInfo(10, 2)
+            # DiskInfo(10, 2)
         ])
     )
 ])
